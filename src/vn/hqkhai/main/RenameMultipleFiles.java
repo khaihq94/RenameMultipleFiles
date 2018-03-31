@@ -21,6 +21,9 @@ public class RenameMultipleFiles {
 			File[] files = dir.listFiles();
 			for (File file : files) {
 				String currentName = file.getName();
+				if(isFileNameFormatted(currentName)) {
+					continue;
+				}
 				String extensionName = currentName.substring(currentName.length() - 4);
 				boolean isImage = extensionName.equalsIgnoreCase(JPG_FORMAT) || extensionName.equalsIgnoreCase(PNG_FORMAT);
 				if(isImage) {
@@ -30,6 +33,16 @@ public class RenameMultipleFiles {
 			}
 			System.out.println("Rename done!");
 		}
+	}
+
+	private static boolean isFileNameFormatted(String currentName) {
+		String[] separatedFileNames = currentName.split(UNDER_SCORE);
+		for(String separatedFileName: separatedFileNames) {
+			if(separatedFileName.matches("\\d+")) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private static String getCurrentPath() throws URISyntaxException {
